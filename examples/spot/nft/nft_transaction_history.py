@@ -4,17 +4,15 @@ import logging
 from binance.spot import Spot as Client
 from binance.lib.utils import config_logging
 from binance.error import ClientError
+from conf.setting import key, secret, timestamp, proxies
 
 config_logging(logging, logging.DEBUG)
 
-key = ""
-secret = ""
-
-client = Client(key, secret)
+client = Client(key, secret, proxies=proxies)
 logger = logging.getLogger(__name__)
 
 try:
-    logger.info(client.nft_transaction_history(0))
+    logger.info(client.nft_transaction_history(0, timestamp=timestamp))
 except ClientError as error:
     logger.error(
         "Found error. status: {}, error code: {}, error message: {}".format(
